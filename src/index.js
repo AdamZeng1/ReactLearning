@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import List from './components/List/List'
-
+import App from './App'
 
 ReactDOM.render(
-  <List />,
+  <App />,
   document.getElementById('root')
 );
 

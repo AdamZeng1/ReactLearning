@@ -17,18 +17,23 @@ const useStyle = makeStyles((theme)=>
 )
 );
 
-export default function List() {
+export default function List({list}) {
     const classes = useStyle();
     return (
         <div>
             <Paper className={classes.root}>
                 <CssBaseline/>
-                <Title />
+                <Title title={list.title}/>
+                {/* <Card />
                 <Card />
                 <Card />
-                <Card />
-                <Card />
-                <InputContainer />
+                <Card /> */}
+                {list.cards.map((card)=> {
+                    return (
+                      <Card key={card.id} card={card}/>
+                    );
+                })}
+                <InputContainer listId={list.id}/>
             </Paper>
         </div>
     )
