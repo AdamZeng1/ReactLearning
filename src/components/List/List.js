@@ -17,13 +17,13 @@ const useStyle = makeStyles((theme)=>
 )
 );
 
-export default function List({list}) {
+export default function List({list, index}) {
     const classes = useStyle();
     return (
         <div>
             <Paper className={classes.root}>
                 <CssBaseline/>
-                <Title title={list.title}/>
+                <Title title={list.title} listId={list.id} />
                 {/* <Card />
                 <Card />
                 <Card />

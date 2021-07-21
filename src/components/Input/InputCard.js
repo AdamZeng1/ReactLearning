@@ -3,6 +3,7 @@ import React, {useState, useContext} from 'react';
 import { makeStyles, fade } from '@material-ui/core/styles';
 import ClearIcon from '@material-ui/icons/Clear';
 import storeApi from '../../utils/storeApi';
+import { ContactSupportOutlined } from '@material-ui/icons';
 
 const useStyle = makeStyles((theme)=>
 (
@@ -31,16 +32,25 @@ const useStyle = makeStyles((theme)=>
 );
 
 
-export default function InputCard({setOpen, listId}) {
+export default function InputCard({setOpen, listId, type}) {
     const classes = useStyle();
-    const {addMoreCard} = useContext(storeApi);
-    const [cardTitle, setCardTitle] = useState('');
+    const {addMoreCard, addMoreList} = useContext(storeApi);
+    const [title, setTitle] = useState('');
     const handleOnChange = (e) => {
-        setCardTitle(e.target.value);
+        setTitle(e.target.value);
     };
     const handleBtnConfirm = () => {
-        addMoreCard(cardTitle, listId);
+        if(type === "list") {
+            addMoreList(title, listId);
+        } else {
+            addMoreCard(title, listId);
+        }
+        setTitle('');
         setOpen(false);
+    }
+    const handleBlur = () => {
+        setOpen(false);
+        setTitle('');
     }
     return (
         <div>
@@ -50,8 +60,8 @@ export default function InputCard({setOpen, listId}) {
                     onChange={handleOnChange}
                     multiline 
                     fullWidth 
-                    onBlur={()=>{setOpen(false)}}
-                    value={cardTitle}
+                    onBlur={()=>{setOpen(false);}}
+                    value={title}
                     placeholder="Enter a title"
                     inputProps={{
                         className: classes.input
@@ -60,7 +70,7 @@ export default function InputCard({setOpen, listId}) {
                 </Paper>
             </div>
             <div>
-                <Button className={classes.btnConfirm} onClick={handleBtnConfirm}>Add Card</Button>
+                <Button className={classes.btnConfirm} onClick={handleBtnConfirm}>{type==="list"?"Add List":"Add Card"}</Button>
                 <IconButton onClick={()=>{setOpen(false)}}>
                     <ClearIcon />
                 </IconButton>
