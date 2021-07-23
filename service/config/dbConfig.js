@@ -1,7 +1,7 @@
 module.exports = {
-    HOST: "localhost",
-    PORT: "8000",
+    HOST: "34.72.199.116",
+    PORT: "3306",
     USER: "root",
-    PASSWORD: "example",
+    PASSWORD: "thisistrellodatabase",
     DB: "trello"
 }
