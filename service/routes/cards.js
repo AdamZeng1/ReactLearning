@@ -9,10 +9,11 @@ var cards = require('../controllers/card.controller');
 
 router.post('/', cards.create);
 
-// Update a Customer with customerId
+// Update a Card with id
 router.put("/:id", cards.update);
 
-  // Delete a Customer with customerId
+// Delete a Card with id
+router.delete("/:id", cards.delete);
 // app.delete("/:id", cards.delete);
 
 module.exports = router;

@@ -1,4 +1,4 @@
-const Card = require('../models/cards.model.js');
+const List = require('../models/lists.model.js');
 
 
 exports.create = (req, res) => {
@@ -10,18 +10,17 @@ exports.create = (req, res) => {
   }
 
    // Create a Customer
-   const card = new Card({
-    title: req.body.title,
-    description: req.body.description,
-    listId: req.body.listId
+   const list = new List({
+    name: req.body.name,
+    boardId: req.body.boardId
   });
 
   // Save Customer in the database
-  Card.create(card, (err, data) => {
+  List.create(list, (err, data) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Customer."
+          err.message || "Some error occurred while creating the List."
       });
     else res.send(data);
   });
@@ -38,18 +37,18 @@ if (!req.body) {
 
 console.log(req.body);
 
-Card.updateById(
+List.updateById(
     req.params.id,
-    new Card(req.body),
+    new List(req.body),
     (err, data) => {
     if (err) {
         if (err.kind === "not_found") {
         res.status(404).send({
-            message: `Not found Card with id ${req.params.id}.`
+            message: `Not found List with id ${req.params.id}.`
         });
         } else {
         res.status(500).send({
-            message: "Error updating Card with id " + req.params.id
+            message: "Error updating List with id " + req.params.id
         });
         }
     } else res.send(data);
@@ -58,17 +57,17 @@ Card.updateById(
 };
 
 exports.delete = (req, res) => {
-    Card.remove(req.params.id, (err, data) => {
+    List.remove(req.params.id, (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
-            message: `Not found Card with id ${req.params.id}.`
+            message: `Not found List with id ${req.params.id}.`
           });
         } else {
           res.status(500).send({
-            message: "Could not delete Card with id " + req.params.id
+            message: "Could not delete List with id " + req.params.id
           });
         }
-      } else res.send({ message: `Card was deleted successfully!` });
+      } else res.send({ message: `List was deleted successfully!` });
     });
 };
