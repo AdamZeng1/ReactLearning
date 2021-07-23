@@ -9,14 +9,14 @@ import { Droppable } from 'react-beautiful-dnd';
 const useStyle = makeStyles((theme)=>
 (
     {    
-    root : {
-            width: '300px',
-            backgroundColor: '#EBECF0',
-            marginLeft: theme.spacing(1)
-        },
-    cardContainer : {
-        marginTop: theme.spacing(1)
-    }
+        root : {
+                width: '300px',
+                backgroundColor: '#EBECF0',
+                marginLeft: theme.spacing(1),
+            },
+        cardContainer : {
+            marginTop: theme.spacing(1)
+        }
     }
 )
 );
@@ -27,7 +27,7 @@ export default function List({list, index}) {
         <div>
             <Paper className={classes.root}>
                 <CssBaseline/>
-                <Title title={list.title} listId={list.id} />
+                <Title title={list.title} listId={list.id} type="list" />
                 <Droppable droppableId={list.id} >
                     {
                         (provided)=> (
@@ -38,7 +38,7 @@ export default function List({list, index}) {
                             >
                             {list.cards.map((card, index)=> {
                                 return (
-                                    <Card key={card.id} card={card} index={index}/>
+                                    <Card key={card.id} card={card} index={index} listId={list.id}/>
                                 );
                             })}
                             {provided.placeholder}

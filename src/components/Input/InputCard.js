@@ -66,6 +66,7 @@ export default function InputCard({setOpen, listId, type}) {
                     inputProps={{
                         className: classes.input
                     }} 
+                    
                     />
                 </Paper>
             </div>

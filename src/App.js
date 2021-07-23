@@ -74,6 +74,63 @@ export default function App() {
         setData(newState);
     }
 
+    const updateCardTitle = (title, cardId, listId) => {
+        const list = data.lists[listId];
+        const cards = Array.from(list.cards);
+        for (const element of cards) {
+            if(element.id === cardId) {
+                element.title = title;
+            }
+        }
+        list.cards = cards;
+        const newState = {
+            ...data,
+            lists: {
+                ...data.lists,
+                [listId]: list
+            }
+        }
+        setData(newState);
+    }
+
+    const updateCardDescription = (description, cardId, listId) => {
+        const list = data.lists[listId];
+        const cards = Array.from(list.cards);
+        for (const element of cards) {
+            if(element.id === cardId) {
+                element.description = description;
+            }
+        }
+        list.cards = cards;
+        const newState = {
+            ...data,
+            lists: {
+                ...data.lists,
+                [listId]: list
+            }
+        }
+        setData(newState);
+    }
+
+    const removeCard = (cardId, listId) => {
+        const list = data.lists[listId];
+        const cards = Array.from(list.cards);
+        for(let i = 0; i < cards.length; i++){ 
+            if (cards[i].id === cardId) { 
+                cards.splice(i, 1); 
+            }
+        }
+        list.cards = cards;
+        const newState = {
+            ...data,
+            lists: {
+                ...data.lists,
+                [listId]: list
+            }
+        }
+        setData(newState);
+    }
+
     const onDragEnd = (result) => {
         console.log(result);
         const {draggableId, source, destination} = result;
@@ -135,7 +192,7 @@ export default function App() {
     }
 
     return (
-        <StoreApi.Provider value={{addMoreCard, addMoreList, updateListTitle}}>
+        <StoreApi.Provider value={{addMoreCard, addMoreList, updateListTitle, updateCardTitle, updateCardDescription, removeCard}}>
         <div className={classes.root}>
         <DragDropContext onDragEnd={onDragEnd}>
 

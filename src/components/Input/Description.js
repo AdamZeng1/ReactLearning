@@ -2,9 +2,8 @@ import React, {useState, useContext} from 'react';
 import {Paper, Typography, CssBaseline} from '@material-ui/core'
 import { InputBase } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import storeApi from '../../utils/storeApi';
-
+import ReactMarkdown from 'react-markdown';
 
 const useStyle = makeStyles((theme)=>
 (
@@ -16,37 +15,42 @@ const useStyle = makeStyles((theme)=>
         editableTitle : {
             flexGrow: "1",
             fontSize: "1.2rem",
-            fontWeight: "bold"
         },
         input: {
             fontSize: "1.2rem",
-            fontWeight: "bold",
             margin: theme.spacing(1),
             "&:focus": {
                 background : "#ddd"
-            }
+            },
+            width: "500px",
+            minHeight: "300px"
+        },
+        inputArea: {
+            width: "500px",
+            minHeight: "300px",
+            background : "#ddd"
+        },
+        markdown:{
+            width: "500px",
+            minHeight: "300px",
+            background : "#ddd"
         }
     }
 )
 );
 
-export default function Title({title, cardId, listId, type}) {
+export default function Description({description, cardId, listId, type}) {
     const [open, setOpen] = useState();
-    const [newTitle, setNewTitle] = useState(title);
+    const [newDescription, setNewDescription] = useState(description);
     const classes = useStyle();
-    const {updateListTitle, updateCardTitle} = useContext(storeApi);
+    const {updateCardDescription} = useContext(storeApi);
     const handleOnChange = (e) => {
-        setNewTitle(e.target.value);
+        setNewDescription(e.target.value);
     };
 
     const handleOnBlur = (e) => {
         setOpen(!open);
-        if(type === "card") {
-            updateCardTitle(newTitle, cardId, listId);
-        }
-        else if(type === "list") {
-            updateListTitle(newTitle, listId);
-        }
+        updateCardDescription(newDescription, cardId, listId);
     };
     return (
         <div>
@@ -57,21 +61,26 @@ export default function Title({title, cardId, listId, type}) {
                         onChange={handleOnChange}
                         onBlur={handleOnBlur}
                         autoFocus="true"
-                        value={newTitle}
+                        value={newDescription}
                         inputProps={{
                             className: classes.input
                         }}
-                        fullWidth
+                        placeholder="Enter a description"
+                        multiline 
                     />
                 </div>
                 )
                 :
                 (
                 <div className={classes.editableTitleContainer}>
-                    <Typography onClick={()=>setOpen(!open)} className={classes.editableTitle}>
-                        {title}
-                    </Typography>
-                    {type==="card"?(""):(<MoreHorizIcon />)}
+                    <div onClick={()=>setOpen(!open)}>
+                        {
+                            description? 
+                            (<ReactMarkdown className={classes.markdown}>{newDescription}</ReactMarkdown>)
+                        :
+                            (<div className={classes.inputArea}></div>)
+                        }
+                    </div>
                 </div>
                 )
             }
