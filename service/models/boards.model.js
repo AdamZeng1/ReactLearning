@@ -20,11 +20,13 @@ const reformatData = (cardlist) => {
       // console.log(listIds);
     }
     for(const card of cardlist) {
-        data[card.ListID].cards.push({
-          id: card.CardID.toString(),
-          title: card.Title,
-          description: card.Description,
-        });
+        if(card.CardID) {
+          data[card.ListID].cards.push({
+            id: card.CardID.toString(),
+            title: card.Title,
+            description: card.Description,
+          });
+        }
     }
     return {lists: data, listIds: Array.from(listIds)};
 }
@@ -33,7 +35,7 @@ const reformatData = (cardlist) => {
 Board.findById = (boardId, result) => {
   sql.query(`SELECT Card.CardID, Card.Title, Card.Description, temp_list.ListID, temp_list.Name FROM 
   (SELECT ListID, NAME FROM List WHERE BoardID = ${boardId}) temp_list
-  JOIN Card ON Card.ListID = temp_list.ListID`, (err, res) => {
+  LEFT JOIN Card ON Card.ListID = temp_list.ListID`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
