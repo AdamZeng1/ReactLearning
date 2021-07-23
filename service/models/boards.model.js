@@ -20,7 +20,11 @@ const reformatData = (cardlist) => {
       // console.log(listIds);
     }
     for(const card of cardlist) {
-        data[card.ListID].cards.push(card);
+        data[card.ListID].cards.push({
+          id: card.CardID.toString(),
+          title: card.Title,
+          description: card.Description,
+        });
     }
     return {lists: data, listIds: Array.from(listIds)};
 }

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import List from './components/List/List';
 import store from './utils/store';
 import StoreApi from './utils/storeApi';
@@ -6,6 +6,7 @@ import {v4 as uuid} from 'uuid';
 import InputContainer from './components/Input/InputContainer'
 import {makeStyles} from "@material-ui/core/styles";
 import { DragDropContext } from 'react-beautiful-dnd';
+import axios from 'axios';
 
 const useStyle = makeStyles((theme)=>
 (
@@ -21,6 +22,16 @@ const useStyle = makeStyles((theme)=>
 export default function App() {
     const classes = useStyle();
     const [data, setData] = useState(store);
+
+    useEffect(()=> {
+        async function fetchBoard() {
+            const request = await axios.get("http://localhost:3000/boards/1");
+            setData(request.data);
+        }
+        fetchBoard();
+    }, []);
+
+
     const addMoreCard = (title, listId) => {
         const newCardId = uuid();
         const newCard = {
